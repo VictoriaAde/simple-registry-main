@@ -6,8 +6,8 @@ import { CONTRACT_ADDRESS, ABI } from "./contract";
 function App() {
   const [name, setName] = useState("");
   const [retrievedName, setRetrievedName] = useState("");
-  const [age, setAge] = useState(0);
-  const [retrievedAge, setRetrievedAge] = useState();
+  const [age, setAge] = useState("");
+  const [retrievedAge, setRetrievedAge] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function requestAccount() {
@@ -63,17 +63,17 @@ function App() {
 
       try {
         const getEntities = await contract.getEntityDetails();
-        const { name, age } = getEntities;
+        const { age, name } = getEntities;
 
         setLoading(true);
         // console.log(getEntities);
-        setRetrievedName(name);
         setRetrievedAge(age);
+        setRetrievedName(name);
         setLoading(false);
 
-        console.log("Age updated successfully");
+        console.log(`updated ${age}`);
       } catch (err) {
-        console.error("Error updating age:", err);
+        console.error("Error updating:", err);
       }
     }
   }
@@ -81,32 +81,64 @@ function App() {
   return (
     <>
       <div>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            placeholder="Enter name"
-            value={name}
-            name="name"
-            onChange={(e) => setName(e.target.value)}
-            className="input-field"
-          />{" "}
-          <button onClick={setUpdateNameInContract}>Update Name</button>
+        <h1>Official Registry</h1>
+        <div className="input-div-con">
+          <div className="input-div">
+            <div>
+              <div>
+                <label htmlFor="name">Name</label>
+              </div>{" "}
+              <div>
+                <input
+                  type="text"
+                  placeholder="Enter name"
+                  value={name}
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                  className="input-field"
+                />{" "}
+              </div>
+            </div>
+            <div>
+              <button onClick={setUpdateNameInContract}>Update Name</button>
+            </div>{" "}
+          </div>
+          <div className="input-div">
+            <div>
+              <div>
+                <label htmlFor="age">Age</label>
+              </div>{" "}
+              <div>
+                <input
+                  type="number"
+                  placeholder="Enter age"
+                  value={age}
+                  name="age"
+                  onChange={(e) => setAge(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+            </div>
+            <div>
+              <button onClick={setUpdateAgeInContract}>Update Age</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <label htmlFor="age">Age</label>
-          <input
-            type="number"
-            placeholder="Enter age"
-            value={age}
-            name="age"
-            onChange={(e) => setAge(e.target.value)}
-            className="input-field"
-          />
-          <button onClick={setUpdateAgeInContract}>Update Age</button>
-          <button onClick={getEntitiesInContract}>Update Entities</button>
-          <p>Updated Name: {loading ? <p>Loading...</p> : retrievedName}</p>
-          <p>Updated Age: {loading ? <p>Loading...</p> : retrievedAge}</p>
+        <div className="get-fullInfo-btn">
+          <button onClick={getEntitiesInContract}>Get Full Information</button>
+        </div>
+        <div className="full-info">
+          <div>
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <div>
+                <p>{retrievedName}</p>
+
+                <p>{retrievedAge}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
