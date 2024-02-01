@@ -1,35 +1,116 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { ethers } from "ethers";
+import { CONTRACT_ADDRESS, ABI } from "./contract";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState("");
+  const [retrievedName, setRetrievedName] = useState("");
+  const [age, setAge] = useState(0);
+  const [retrievedAge, setRetrievedAge] = useState();
+  const [loading, setLoading] = useState(false);
+
+  async function requestAccount() {
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+  }
+
+  async function setUpdateNameInContract() {
+    if (typeof window.ethereum !== "undefined") {
+      await requestAccount();
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+
+      try {
+        const updatedName = await contract.updateName(name);
+        setLoading(true);
+        await updatedName.wait();
+        setLoading(false);
+
+        console.log("Name updated successfully");
+      } catch (err) {
+        console.error("Error updating name:", err);
+      }
+    }
+  }
+
+  async function setUpdateAgeInContract() {
+    if (typeof window.ethereum !== "undefined") {
+      await requestAccount();
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+
+      try {
+        const updatedAge = await contract.updateAge(age);
+        setLoading(true);
+        await updatedAge.wait();
+        setLoading(false);
+
+        console.log("Age updated successfully");
+      } catch (err) {
+        console.error("Error updating age:", err);
+      }
+    }
+  }
+
+  async function getEntitiesInContract() {
+    if (typeof window.ethereum !== "undefined") {
+      await requestAccount();
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+
+      try {
+        const getEntities = await contract.getEntityDetails();
+        const { name, age } = getEntities;
+
+        setLoading(true);
+        // console.log(getEntities);
+        setRetrievedName(name);
+        setRetrievedAge(age);
+        setLoading(false);
+
+        console.log("Age updated successfully");
+      } catch (err) {
+        console.error("Error updating age:", err);
+      }
+    }
+  }
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            name="name"
+            onChange={(e) => setName(e.target.value)}
+            className="input-field"
+          />{" "}
+          <button onClick={setUpdateNameInContract}>Update Name</button>
+        </div>
+        <div>
+          <label htmlFor="age">Age</label>
+          <input
+            type="number"
+            placeholder="Enter age"
+            value={age}
+            name="age"
+            onChange={(e) => setAge(e.target.value)}
+            className="input-field"
+          />
+          <button onClick={setUpdateAgeInContract}>Update Age</button>
+          <button onClick={getEntitiesInContract}>Update Entities</button>
+          <p>Updated Name: {loading ? <p>Loading...</p> : retrievedName}</p>
+          <p>Updated Age: {loading ? <p>Loading...</p> : retrievedAge}</p>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
