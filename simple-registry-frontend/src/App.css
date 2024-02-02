@@ -21,4 +21,11 @@
 }
 .full-info {
   display: flex;
+  justify-content: space-between;
+}
+.full-info p {
+  display: flex;
+  align-items: self-start;
+  font-size: 1.1rem;
+  text-align: center;
 }

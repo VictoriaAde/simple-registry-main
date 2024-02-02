@@ -66,7 +66,6 @@ function App() {
         const { age, name } = getEntities;
 
         setLoading(true);
-        // console.log(getEntities);
         setRetrievedAge(age);
         setRetrievedName(name);
         setLoading(false);
@@ -127,19 +126,16 @@ function App() {
         <div className="get-fullInfo-btn">
           <button onClick={getEntitiesInContract}>Get Full Information</button>
         </div>
-        <div className="full-info">
-          <div>
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              <div>
-                <p>{retrievedName}</p>
-
-                <p>{retrievedAge}</p>
-              </div>
-            )}
-          </div>
-        </div>
+        <p className="full-info">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <p>{`${retrievedName}`}</p>
+              <p>{`${retrievedAge}`}</p>
+            </>
+          )}
+        </p>
       </div>
     </>
   );
