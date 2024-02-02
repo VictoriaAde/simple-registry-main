@@ -10,5 +10,8 @@ module.exports = {
       accounts: [`0x${process.env.KEY}`],
     },
   },
+  etherscan: {
+    apiKey: process.env.APIKEY,
+  },
 };
-// 0x9afeBF584c5f57Db7f46cc9162722b27856D5C22
+// 0x592ccbff9CD246ba87E38a1D31f4bc6e0EAd4955

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
+// Author: @VictoriaAde
 pragma solidity ^0.8.19;
 
 contract SimpleRegistry {
