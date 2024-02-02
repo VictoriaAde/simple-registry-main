@@ -20,6 +20,10 @@ A contract that that get information from registry
 
 ### Contract Address
 
-0x9afeBF584c5f57Db7f46cc9162722b27856D5C22
+0x592ccbff9CD246ba87E38a1D31f4bc6e0EAd4955
 
-Paste the above address in [Ether Scan Sepolia](https://sepolia.etherscan.io/address/0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43)
+Paste the above address to veiw contract on Ether Scan
+
+or
+
+Click this link [Ether Scan Sepolia](https://sepolia.etherscan.io/address/0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43)
